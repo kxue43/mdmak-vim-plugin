@@ -1,11 +1,13 @@
-if exists("g:loaded_mdmak")
+if exists("g:mdmak_loaded")
     finish
 endif
-let g:loaded_mdmak = 1
+let g:mdmak_loaded = 1
 
-"nmap <leader>ll :silent! call MdmakRender()<CR>
-nmap <leader>ll :MdmakRender
+nmap <leader>ll :silent! call MdmakRender()<CR>
 
-" Exposes the plugin's functions for use as commands in Vim.
-command! -nargs=0 MdmakRender call mdmak-plugin#MdmakRender()
-
+function! MdmakRender()
+  let b:curr_file = expand('%:p')
+  let b:output_path = g:mdmak_plugin_dir . '/rendered.html'
+  call system(g:mdmak_executable . ' ' . b:curr_file . ' ' . b:output_path)
+  call system('open -a "' . g:mdmak_browser . '" ' . b:output_path)
+endfunction
