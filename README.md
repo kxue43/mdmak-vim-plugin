@@ -3,6 +3,8 @@
 This is a Vim plugin that converts the current Markdown file being viewed into a GitHub style HTML and displays
 it in a browser.
 
+To convert and display, hit the `<leader>ll` keys in normal mode. This is the only key map that the plugin defines.
+
 Currently this plugin only works on macOS. 
 
 ## Install Plugin Dependency
