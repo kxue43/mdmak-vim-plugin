@@ -7,7 +7,9 @@ nmap <leader>ll :silent! call MdmakRender()<CR>
 
 function! MdmakRender()
   let b:curr_file = expand('%:p')
-  let b:output_path = g:mdmak_plugin_dir . '/rendered.html'
-  call system(g:mdmak_executable . ' ' . b:curr_file . ' ' . b:output_path)
-  call system('open -a "' . g:mdmak_browser . '" ' . b:output_path)
+  let b:output_path = fnamemodify(g:mdmak_plugin_dir, ':p') . '/rendered.html'
+  let b:mdmak = fnamemodify(g:mdmak_executable, ':p')
+  let b:python = fnamemodify(g:mdmak_python_executable, ':p')
+  call system(b:mdmak . ' ' . b:curr_file . ' ' . b:output_path)
+  call system(b:python . ' -m webbrowser -t file://' . b:output_path . ' > /dev/null 2>&1')
 endfunction

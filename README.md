@@ -5,43 +5,30 @@ it in a browser.
 
 To convert and display, hit the `<leader>ll` keys in normal mode. This is the only key map that the plugin defines.
 
-Currently this plugin only works on macOS. 
+Currently this plugin only works on Linux and macOS. 
 
 ## Install Plugin Dependency
 
 This plugin uses a Python CLI program [mdmak], which must be installed to a Python (virtual) environment that is
-guaranteed to exist longer than the plugin itself. 
+guaranteed to exist longer than the plugin itself. The best way to achieve this is to dedicate either a Python interpreter
+or a virtual environment to this plugin.
 
-There are two options to do this on macOS.
+If you use [pyenv](https://github.com/pyenv/pyenv) to manage Python interpreters on your developer machine, the following
+are detailed steps for creating such a dedicated environment.
 
-1. Create a standalone virtual environment using `venv`. Install `mdmak` into it. Keep the virtual environment
-   there as long as the plugin is used, and don't install anything else into it.
+Below we suppose `PYENV_ROOT` is `~/.pyenv` and the interpreter version we use is `3.11.12`. Substitute accordingly
+if your settings are different.
 
-2. On a macOS developer machine, the system Python interpreter is usually not used directly. Therefore we can use
-   the global environment of the system Python interpreter as a "durable" Python environment. This environment is
-   obviously always there as long as the system Python doesn't have a version upgrade. Similarly, either don't install
-   anything else into it afterwards or make sure other installations don't interfere with [mdmak] or
-   its dependency [marko].
+Install [mdmak] from its GitHub release asset.
 
-Below are the detailed steps of the 2nd approach above.
+```bash
+~/.pyenv/versions/3.11.12/bin/python -m pip install "mdmak@https://github.com/kxue43/mdmak/releases/download/1.0.0/mdmak-1.0.0-py3-none-any.whl"
+```
 
-- Make sure the system Python is version 3.9 or above.
+Now the absolute path to the installed `mdmak` binary is `~/.pyenv/versions/3.11.12/bin/mdmak`.
+The absolute path to the Python interpreter is `~/.pyenv/versions/3.11.12/bin/python`.
 
-  ```bash
-  /usr/bin/python3 -V
-  ```
-
-- Install [mdmak] from its GitHub release asset.
-
-  ```bash
-  /usr/bin/python3 -m pip install "mdmak@https://github.com/kxue43/mdmak/releases/download/1.0.0/mdmak-1.0.0-py3-none-any.whl"
-  ```
-
-- Get the absolute path to the installed `mdmak` binary. This is needed to configure the Vim plugin.
-
-  ```bash
-  echo "$(/usr/bin/python3 -c 'import site; print(site.getuserbase());')/bin/mdmak"
-  ```
+Note down these two paths as we will use them to configure this Vim plugin.
 
 ## Install the Plugin via `vim-plug`
 
@@ -59,29 +46,16 @@ This plugin has three configuration variables and all are required.
 
 | Variable Name | Description |
 | :----         |  :---       |
-| `g:mdmak_executable` | Absolute path to the installed `mdmak` binary. See above for how to retrieve it. |
+| `g:mdmak_executable` | Absolute path to the installed `mdmak` binary. |
+| `g:mdmak_python_executable` | Absolute path to the Python interpreter. |
 | `g:mdmak_plugin_dir` | Absolute path to the folder where this plugin is installed. |
-| `g:mdmak_browser` | E.g. `'Safari'`, `'Firefox'`, `'Google Chrome'` |
 
 Example snippet for your VIMRC file looks like below.
 
 ```vimscript
-let g:mdmak_executable = '/Users/kxue43/Library/Python/3.9/bin/mdmak'
-let g:mdmak_plugin_dir = '/Users/kxue43/.vim/plugged/mdmak-vim-plugin'
-let g:mdmak_browser = 'Safari'
+let g:mdmak_executable = '~/.pyenv/versions/3.11.12/bin/mdmak'
+let g:mdmak_python_executable = '~/.pyenv/versions/3.11.12/bin/python'
+let g:mdmak_plugin_dir = '~/.vim/plugged/mdmak-vim-plugin'
 ```
 
-## Port to Other OS
-
-To port this plugin to operating systems other than macOS, it only takes the following steps.
-
-- Figuring out the CLI command that opens a file in a browser.
-  Update it in [mdmak-plugin.vim](./plugin/mdmak-plugin.vim).
-
-- Figuring out how to install the [mdmak] CLI program in a durable Python (virtual) environment and how to get the
-  absolute path to the installed `mdmak` binary. This will be the value for `g:mdmak_executable`.
-
-- Update configuration variables accordingly.
-
 [mdmak]: https://github.com/kxue43/mdmak
-[marko]: https://github.com/frostming/marko
