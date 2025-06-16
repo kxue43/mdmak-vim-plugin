@@ -58,4 +58,9 @@ let g:mdmak_python_executable = '~/.pyenv/versions/3.11.12/bin/python'
 let g:mdmak_plugin_dir = '~/.vim/plugged/mdmak-vim-plugin'
 ```
 
+## Notes
+
+On macOS, set the default app for opening HTML files to one of your browsers. Otherwise the generated
+HTML won't be displayed in your browser correctly.
+
 [mdmak]: https://github.com/kxue43/mdmak
