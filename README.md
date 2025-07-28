@@ -7,7 +7,7 @@ To convert and display, hit the `<leader>ll` keys in normal mode. This is the on
 
 ## Install Plugin Dependency
 
-This plugin depends on a Go executable whose source is located [here](toolkit-show-md).
+This plugin depends on a Go executable whose source is located [here](https://github.com/kxue43/cli-toolkit/blob/main/cmd/toolkit-show-md/main.go).
 
 To install it, first install Go on your operating system and run the following command.
 
@@ -32,5 +32,3 @@ Plug 'kxue43/showmd-vim-plugin', {'for': 'markdown'}
 ```
 
 Don't forget to run the `:PlugUpdate` Vim command afterwards.
-
-[toolkit-show-md]: https://github.com/kxue43/cli-toolkit/blob/main/cmd/toolkit-show-md/main.go
